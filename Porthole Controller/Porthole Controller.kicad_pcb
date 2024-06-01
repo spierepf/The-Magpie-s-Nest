@@ -79,9 +79,9 @@
 			(subtractmaskfromsilk no)
 			(outputformat 1)
 			(mirror no)
-			(drillshape 1)
+			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "")
+			(outputdirectory "./rev1")
 		)
 	)
 	(net 0 "")
@@ -6589,7 +6589,7 @@
 			(uuid "ee20a4f0-504f-43e5-b641-f3a1390a4ad8")
 		)
 		(fp_text user "${REFERENCE}"
-			(at -1.27 2.54 270)
+			(at -1.27 2.54 -90)
 			(layer "F.Fab")
 			(uuid "9326f2b0-580a-4968-8ce3-a6ce4ab853a7")
 			(effects
@@ -6684,7 +6684,7 @@
 		(descr "Resistor, Axial_DIN0204 series, Axial, Horizontal, pin pitch=5.08mm, 0.167W, length*diameter=3.6*1.6mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf")
 		(tags "Resistor Axial_DIN0204 series Axial Horizontal pin pitch 5.08mm 0.167W length 3.6mm diameter 1.6mm")
 		(property "Reference" "R3"
-			(at 2.54 -1.92 270)
+			(at 2.54 -1.92 -90)
 			(layer "F.SilkS")
 			(uuid "a110602e-2366-4e8f-b13d-230ad7fef047")
 			(effects
@@ -6695,7 +6695,7 @@
 			)
 		)
 		(property "Value" "100"
-			(at 2.54 1.92 270)
+			(at 2.54 1.92 -90)
 			(layer "F.SilkS")
 			(uuid "819c0df8-b883-4655-a9e9-aa46c0104ebd")
 			(effects
@@ -6867,7 +6867,7 @@
 			(uuid "973043a8-daad-46cd-b3f8-ecd888bb25fd")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 2.54 0 270)
+			(at 2.54 0 -90)
 			(layer "F.Fab")
 			(uuid "09344109-282e-4cbd-8e9a-83cdca5841bf")
 			(effects
@@ -6915,7 +6915,7 @@
 		(at 165 105 -90)
 		(tags "SN74AHC125NG4 ")
 		(property "Reference" "U2"
-			(at 3.81 20 0)
+			(at 3.839 16.1306 0)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "d33e6ae7-e926-4a93-b027-dbcdfdbacd95")
@@ -8364,7 +8364,7 @@
 		(descr "C, Disc series, Radial, pin pitch=2.50mm, , diameter*width=3.0*1.6mm^2, Capacitor, http://www.vishay.com/docs/45233/krseries.pdf")
 		(tags "C Disc series Radial pin pitch 2.50mm  diameter 3.0mm width 1.6mm Capacitor")
 		(property "Reference" "C1"
-			(at -2.5 0 270)
+			(at -2.5 0 -90)
 			(layer "F.SilkS")
 			(uuid "f11d6474-0a92-4c31-aa88-2eba2d62de50")
 			(effects
@@ -8375,7 +8375,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 1.25 2.05 270)
+			(at 1.25 2.05 -90)
 			(layer "F.SilkS")
 			(uuid "e93f9733-1351-492d-8173-9dd1b93df03b")
 			(effects
@@ -8527,7 +8527,7 @@
 			(uuid "7a1b1c7c-cf23-4643-9f1b-4e99bcd58a1a")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1.25 0 270)
+			(at 1.25 0 -90)
 			(layer "F.Fab")
 			(uuid "014fa7aa-5c41-400a-8b76-573d0c96aae3")
 			(effects
@@ -10101,7 +10101,7 @@
 		(descr "Resistor, Axial_DIN0204 series, Axial, Horizontal, pin pitch=5.08mm, 0.167W, length*diameter=3.6*1.6mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf")
 		(tags "Resistor Axial_DIN0204 series Axial Horizontal pin pitch 5.08mm 0.167W length 3.6mm diameter 1.6mm")
 		(property "Reference" "R4"
-			(at 2.54 -1.92 270)
+			(at 2.54 -1.92 -90)
 			(layer "F.SilkS")
 			(uuid "3e1c8051-2a1e-436a-aa72-630de1106575")
 			(effects
@@ -10112,7 +10112,7 @@
 			)
 		)
 		(property "Value" "100"
-			(at 2.54 1.92 270)
+			(at 2.54 1.92 -90)
 			(layer "F.SilkS")
 			(uuid "dbc1fbba-543c-4262-9fce-afb8552435a1")
 			(effects
@@ -10284,7 +10284,7 @@
 			(uuid "2231e122-b921-4814-a6f2-cb9629756bb4")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 2.54 0 270)
+			(at 2.54 0 -90)
 			(layer "F.Fab")
 			(uuid "2f431ca9-482d-462b-b59f-0332059df82e")
 			(effects
@@ -11581,6 +11581,18 @@
 				(thickness 0.1)
 			)
 			(justify left bottom)
+		)
+	)
+	(gr_text "The Magpie's Nest WLED Controller, Rev 1\nDesign By Peter Spierenburg and Mike Matthews\n2024-06-01"
+		(at 143.3322 106.0196 90)
+		(layer "F.SilkS")
+		(uuid "a2afd113-b32c-4114-bf99-c5a7b0c924d4")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+			(justify bottom)
 		)
 	)
 	(gr_text "5V"
@@ -13122,7 +13134,7 @@
 				(xy 149.444573 106.108616) (xy 149.653653 106.1477) (xy 149.866347 106.1477) (xy 150.075426 106.108616)
 				(xy 150.075436 106.108613) (xy 150.273765 106.03178) (xy 150.273767 106.031779) (xy 150.375336 105.968889)
 				(xy 149.800148 105.3937) (xy 149.811832 105.3937) (xy 149.911962 105.36687) (xy 150.001737 105.315038)
-				(xy 150.075038 105.241737) (xy 150.12687 105.151962) (xy 150.1537 105.051832) (xy 150.1537 105.040147)
+				(xy 150.075038 105.241737) (xy 150.12687 105.151962) (xy 150.1537 105.051832) (xy 150.1537 105.040146)
 				(xy 150.731521 105.617967) (xy 150.739974 105.606775) (xy 150.834782 105.416372) (xy 150.892991 105.211793)
 				(xy 150.906278 105.06841) (xy 150.932064 105.003473) (xy 150.936741 105.000122) (xy 151.122414 105.000122)
 				(xy 151.151442 105.056043) (xy 151.15322 105.06841) (xy 151.166514 105.211884) (xy 151.22475 105.416559)
