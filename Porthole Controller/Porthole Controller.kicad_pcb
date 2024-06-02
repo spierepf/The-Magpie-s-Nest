@@ -15387,7 +15387,7 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "The Magpie's Nest WLED Controller, Rev 1\nDesign By Peter Spierenburg and Mike Matthews\n2024-06-01"
+	(gr_text "The Magpie's Nest WLED Controller, Rev ${REVISION}\nDesign By Peter Spierenburg and Mike Matthews\n${CURRENT_DATE}"
 		(at 143.3322 106.0196 90)
 		(layer "F.SilkS")
 		(uuid "a2afd113-b32c-4114-bf99-c5a7b0c924d4")
