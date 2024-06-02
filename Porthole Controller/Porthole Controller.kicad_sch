@@ -3244,7 +3244,7 @@
 	)
 	(global_label "WS"
 		(shape input)
-		(at 101.6 99.06 0)
+		(at 101.6 101.6 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3254,7 +3254,7 @@
 		)
 		(uuid "213611e9-b866-46ed-a38a-106b8f8d72d9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 107.2461 99.06 0)
+			(at 107.2461 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3266,22 +3266,22 @@
 	)
 	(global_label "SD"
 		(shape input)
-		(at 143.51 99.06 0)
+		(at 130.81 99.06 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "31edef87-6fd9-44ca-8cab-28f6b126135d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 148.9747 99.06 0)
+			(at 125.3453 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -3354,7 +3354,7 @@
 	)
 	(global_label "SCK"
 		(shape input)
-		(at 101.6 101.6 0)
+		(at 101.6 99.06 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3364,7 +3364,7 @@
 		)
 		(uuid "3c1d329d-572f-4339-8af6-826bfd3ae5ee")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 108.3347 101.6 0)
+			(at 108.3347 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3552,22 +3552,22 @@
 	)
 	(global_label "WS"
 		(shape input)
-		(at 130.81 96.52 180)
+		(at 143.51 96.52 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
 		(uuid "7d31b8cb-9d59-44d6-8781-f1acd87bd8c1")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 125.1639 96.52 0)
+			(at 149.1561 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -3794,22 +3794,22 @@
 	)
 	(global_label "SCK"
 		(shape input)
-		(at 130.81 99.06 180)
+		(at 143.51 99.06 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
 		(uuid "a78cf944-02cc-4fd0-959c-5dc5603b4caa")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 124.0753 99.06 0)
+			(at 150.2447 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -3926,22 +3926,22 @@
 	)
 	(global_label "3.3V"
 		(shape input)
-		(at 143.51 96.52 0)
+		(at 130.81 96.52 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "c91520d1-f7da-4279-8a12-763a9c1b4bbc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 150.6076 96.52 0)
+			(at 123.7124 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -4269,7 +4269,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:CP_Radial_D8.0mm_P3.80mm"
 			(at 204.1652 144.78 0)
 			(effects
 				(font
@@ -4407,7 +4407,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:CP_Radial_D8.0mm_P3.80mm"
 			(at 204.1652 119.38 0)
 			(effects
 				(font
@@ -5161,7 +5161,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:CP_Radial_D8.0mm_P3.80mm"
 			(at 204.1652 105.41 0)
 			(effects
 				(font
@@ -5780,7 +5780,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:CP_Radial_D8.0mm_P3.80mm"
 			(at 204.1652 130.81 0)
 			(effects
 				(font
