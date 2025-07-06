@@ -34,40 +34,40 @@ class NodePairTestCase(unittest.TestCase):
 
         self.connect_pins()
 
-        self.node_pair.check()
+        self.node_pair.poll()
 
         spy.assert_called_once_with(self.node_pair, True)
 
     def test_connected_node_pair_notifies_observers_when_pins_become_disconnected(self):
         self.connect_pins()
 
-        self.node_pair.check()
+        self.node_pair.poll()
         spy = Mock()
         self.node_pair.observers.attach(spy)
 
         self.disconnect_pins()
 
-        self.node_pair.check()
+        self.node_pair.poll()
 
         spy.assert_called_once_with(self.node_pair, False)
 
     def test_disconnected_node_pair_does_not_notify_observers_when_connection_state_does_not_change(self):
-        self.node_pair.check()
+        self.node_pair.poll()
         spy = Mock()
         self.node_pair.observers.attach(spy)
 
-        self.node_pair.check()
+        self.node_pair.poll()
 
         spy.assert_not_called()
 
     def test_connected_node_pair_does_not_notify_observers_when_connection_state_does_not_change(self):
         self.connect_pins()
 
-        self.node_pair.check()
+        self.node_pair.poll()
         spy = Mock()
         self.node_pair.observers.attach(spy)
 
-        self.node_pair.check()
+        self.node_pair.poll()
 
         spy.assert_not_called()
 
