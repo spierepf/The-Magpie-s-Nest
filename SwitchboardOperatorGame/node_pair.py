@@ -15,7 +15,7 @@ class NodePair:
     def _get_connection_state(self):
         return self._node1.is_connected_to(self._node2)
 
-    def check(self):
+    def poll(self):
         current_connection_state = self._get_connection_state()
         if self._connection_state == current_connection_state:
             return
