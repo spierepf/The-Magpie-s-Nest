@@ -81,10 +81,26 @@ def draw_arch(surface, center, states, names, title, color, font, mouse_pos):
     # Draw portholes
     ports = generate_arch_positions(center, ARCH_RADIUS, NUM_PORTS_PER_SIDE)
     hovered_name = None
+    pride_colors = [
+        (228, 3, 3),  # Red
+        (255, 140, 0),  # Orange
+        (255, 237, 0),  # Yellow
+        (0, 128, 38),  # Green
+        (0, 77, 255),  # Blue
+        (117, 7, 135),  # Violet
+    ]
+    pride_offset = int(pygame.time.get_ticks() / 120)  # Animate every 120ms
     for i, (x, y) in enumerate(ports):
         state = states[i]
         name = names[i]
-        color_fill = PORT_COLOR_ON if state else PORT_COLOR_OFF
+        color_fill = PORT_COLOR_OFF
+        if state is not None and state.on:
+            if getattr(state, "fx", None) == 68:
+                # Animate pride rainbow: shift colors over time
+                color_fill = pride_colors[(i + pride_offset) % len(pride_colors)]
+            elif state.seg and state.seg[0].col:
+                rgb = state.seg[0].col[0]
+                color_fill = tuple(rgb)
         pygame.draw.circle(surface, color_fill, (x, y), PORT_RADIUS)
         pygame.draw.circle(surface, color, (x, y), PORT_RADIUS, 2)
         # Ensure portholes do not overlap with time_and_space
@@ -103,6 +119,8 @@ def draw_arch(surface, center, states, names, title, color, font, mouse_pos):
 
 
 def run_visualizer(state_manager, front_indices, back_indices):
+    import models
+
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("WLED Arch Visualizer")

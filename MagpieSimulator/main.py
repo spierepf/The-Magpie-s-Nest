@@ -28,19 +28,24 @@ async def start_all_simulators():
     await asyncio.gather(*tasks)
 
 
-async def main():
+def start_asyncio_tasks(state_manager):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.create_task(state_manager.poll_states())
+    loop.create_task(start_all_simulators())
+    loop.run_forever()
+
+
+def main():
     state_manager = WLEDStateManager()
-    # Start polling in the background
-    asyncio.create_task(state_manager.poll_states())
-    # Start simulators in the background
-    asyncio.create_task(start_all_simulators())
-    # Run the visualizer in a thread (since pygame is blocking)
-    vis_thread = threading.Thread(
-        target=run_visualizer, args=(state_manager, FRONT_INDICES, BACK_INDICES)
+    # Start asyncio tasks in a background thread
+    asyncio_thread = threading.Thread(
+        target=start_asyncio_tasks, args=(state_manager,), daemon=True
     )
-    vis_thread.start()
-    vis_thread.join()
+    asyncio_thread.start()
+    # Run the visualizer in the main thread (pygame must run in main thread)
+    run_visualizer(state_manager, FRONT_INDICES, BACK_INDICES)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

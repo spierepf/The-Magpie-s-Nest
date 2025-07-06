@@ -2,11 +2,12 @@
 import asyncio
 import aiohttp
 from config import BASE_PORT, WLED_NAMES
+from models import WLEDState, SegmentState
 
 
 class WLEDStateManager:
     def __init__(self):
-        self.states = [False] * len(WLED_NAMES)
+        self.states = [None] * len(WLED_NAMES)  # type: list[WLEDState|None]
         self.names = list(WLED_NAMES)
 
     async def poll_states(self, interval=1.0):
@@ -25,6 +26,15 @@ class WLEDStateManager:
         try:
             async with session.get(url, timeout=0.5) as resp:
                 data = await resp.json()
-                self.states[idx] = data.get("on", False)
+                self.states[idx] = WLEDState(
+                    on=data.get("on", False),
+                    bri=data.get("bri", 0),
+                    name=data.get("name", self.names[idx]),
+                    seg=[
+                        SegmentState(id=s.get("id", 0), col=s.get("col", [[0, 0, 0]]))
+                        for s in data.get("seg", [])
+                    ],
+                    fx=data.get("fx"),
+                )
         except Exception:
-            self.states[idx] = False
+            self.states[idx] = None
