@@ -1,8 +1,8 @@
 import unittest
 
 from node import Node
-from tests.mock_pin_factory import MockPinFactory
-from tests.mock_pin_net import MockPinNet
+from umockpin.mock_pin_factory import MockPinFactory
+from umockpin.mock_pin_net import MockPinNet
 
 
 class TestNode(unittest.TestCase):
