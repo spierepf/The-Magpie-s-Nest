@@ -4,6 +4,9 @@ class Node:
         self.show_colour = show_colour
         self.clear_colour = clear_colour
 
+    def pin(self):
+        return self._pin
+
     def is_connected_to(self, other_node):
         pin = self._pin
         other_pin = other_node._pin

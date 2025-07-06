@@ -4,6 +4,7 @@ from tests.mock_pin import MockPin
 from tests.mock_pin_factory import MockPinFactory
 from tests.mock_pin_net import MockPinNet
 
+
 class TestMockPinNet(unittest.TestCase):
     def test_net_with_no_pins_has_no_value(self):
         assert MockPinNet().value() is None
@@ -21,6 +22,14 @@ class TestMockPinNetWithOnePin(unittest.TestCase):
 
     def test_pin_may_be_detached_from_net_it_is_attached_to(self):
         self.net.detach_pin(self.pin)
+
+    def test_detached_pin_may_be_reattached_to_net_it_was_detached_from(self):
+        self.net.detach_pin(self.pin)
+        self.net.attach_pin(self.pin)
+
+    def test_detached_pin_may_be_attached_to_new_net(self):
+        self.net.detach_pin(self.pin)
+        MockPinNet().attach_pin(self.pin)
 
     def test_detaching_net_from_pin_manually_fails(self):
         self.assertRaises(KeyError, lambda: self.pin.detach_observer(self.net))
