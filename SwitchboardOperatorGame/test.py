@@ -20,8 +20,6 @@ from tests.test_mock_pin_factory import TestMockPinFactory
 # noinspection PyUnresolvedReferences
 from tests.test_mock_pin_net import TestMockPinNet, TestMockPinNetWithOnePin, TestMockPinNetWithTwoPins
 # noinspection PyUnresolvedReferences
-from tests.test_observable import TestObservable
-# noinspection PyUnresolvedReferences
 from tests.test_node import TestNode
 # noinspection PyUnresolvedReferences
 from tests.test_node_pair import NodePairTestCase

@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import Mock
 
 from tests.mock_pin import MockPin
 from tests.mock_pin_factory import MockPinFactory
@@ -21,24 +22,15 @@ class TestMockPin(unittest.TestCase):
         assert self.mpf.Pin(0, value=False).value() == False
 
     def mockpin_notifies_observers(self, method, old_state, new_state):
-        class Observer:
-            def __init__(self):
-                self.arg = None
-                self.pin = None
-
-            def update(self, observable, arg):
-                self.pin = observable
-                self.arg = arg
-
-        observer = Observer()
+        observer = Mock()
         pin = self.mpf.Pin(0)
 
         method(pin, old_state)
-        pin.attach_observer(observer)
+        pin.observers.attach(observer)
         method(pin, old_state)
-        assert observer.pin is None
+        observer.assert_not_called()
         method(pin, new_state)
-        assert observer.pin == pin
+        observer.assert_called_once()
 
     def test_mockpin_notifies_observers_according_to_value(self):
         self.mockpin_notifies_observers(MockPin.value, True, False)

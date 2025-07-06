@@ -1,7 +1,10 @@
-from observable import Observable
+try:
+    from upatterns.observable import Observable
+except:
+    from lib.upatterns.observable import Observable
 
 
-class MockPin(Observable):
+class MockPin:
     IN = 0
     OUT = 1
 
@@ -14,6 +17,7 @@ class MockPin(Observable):
         self._mode = self.IN
         self._pull = None
         self._value = False
+        self.observers = Observable()
 
     def init(self, mode=-1, pull=-1, value=None):
         self.mode(mode)
@@ -24,7 +28,7 @@ class MockPin(Observable):
         if x is not None:
             if self._value != bool(x):
                 self._value = bool(x)
-                self.notify_observers()
+                self.observers.notify()
         elif self._mode == self.OUT or self._net is None:
             return self._value
         else:
@@ -49,7 +53,7 @@ class MockPin(Observable):
         if x in [self.IN, self.OUT]:
             if self._mode != x:
                 self._mode = x
-                self.notify_observers()
+                self.observers.notify()
         else:
             return self._mode
 
@@ -57,7 +61,7 @@ class MockPin(Observable):
         if x in [None, self.PULL_UP]:
             if self._pull != x:
                 self._pull = x
-                self.notify_observers()
+                self.observers.notify()
         else:
             return self._pull
 

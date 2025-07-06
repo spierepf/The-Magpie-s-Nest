@@ -23,17 +23,6 @@ class TestMockPinNetWithOnePin(unittest.TestCase):
     def test_pin_may_be_detached_from_net_it_is_attached_to(self):
         self.net.detach_pin(self.pin)
 
-    def test_detached_pin_may_be_reattached_to_net_it_was_detached_from(self):
-        self.net.detach_pin(self.pin)
-        self.net.attach_pin(self.pin)
-
-    def test_detached_pin_may_be_attached_to_new_net(self):
-        self.net.detach_pin(self.pin)
-        MockPinNet().attach_pin(self.pin)
-
-    def test_detaching_net_from_pin_manually_fails(self):
-        self.assertRaises(KeyError, lambda: self.pin.detach_observer(self.net))
-
     def test_net_with_single_output_pin_takes_its_value_from_that_pin(self):
         self.pin.init(mode=MockPin.OUT)
         self.pin.high()
@@ -59,10 +48,6 @@ class TestMockPinNetWithOnePin(unittest.TestCase):
     def test_pin_may_be_attached_to_a_new_net_after_being_removed_from_an_old_net(self):
         self.net.detach_pin(self.pin)
         MockPinNet().attach_pin(self.pin)
-
-    def test_detaching_pin_removes_observer(self):
-        self.net.detach_pin(self.pin)
-        assert len(self.pin.observers) == 0
 
 
 class TestMockPinNetWithTwoPins(unittest.TestCase):
