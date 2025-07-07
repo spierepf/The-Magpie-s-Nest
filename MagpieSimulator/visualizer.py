@@ -68,7 +68,7 @@ def generate_arch_outline(center, radius, port_radius):
     )
 
 
-def draw_arch(surface, center, states, names, title, color, font, mouse_pos):
+def draw_arch(surface, center, states, names, title, color, font, mouse_pos, segment):
     # Draw arch outline
     outline = generate_arch_outline(center, ARCH_RADIUS, PORT_RADIUS)
     pygame.draw.polygon(surface, (200, 200, 200), outline, ARCH_OUTLINE_WIDTH)
@@ -99,7 +99,7 @@ def draw_arch(surface, center, states, names, title, color, font, mouse_pos):
                 # Animate pride rainbow: shift colors over time
                 color_fill = pride_colors[(i + pride_offset) % len(pride_colors)]
             elif state.seg and state.seg[0].col:
-                rgb = state.seg[0].col[0]
+                rgb = state.seg[segment].col[0]
                 color_fill = tuple(rgb)
         pygame.draw.circle(surface, color_fill, (x, y), PORT_RADIUS)
         pygame.draw.circle(surface, color, (x, y), PORT_RADIUS, 2)
@@ -150,6 +150,7 @@ def run_visualizer(state_manager, front_indices, back_indices):
             FRONT_COLOR,
             font,
             mouse_pos,
+            0,  # Segment 0 for front arch
         )
         hovered2 = draw_arch(
             screen,
@@ -160,6 +161,7 @@ def run_visualizer(state_manager, front_indices, back_indices):
             BACK_COLOR,
             font,
             mouse_pos,
+            1,  # Segment 1 for back arch
         )
         if hovered or hovered2:
             name = hovered or hovered2
