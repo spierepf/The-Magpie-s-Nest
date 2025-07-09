@@ -24,4 +24,4 @@ if 'mcp23s08.py' not in os.listdir(libpath):
 if 'upatterns' not in os.listdir(libpath):
     import mip
 
-    mip.install('github:spierepf/mip_packages/upatterns', target=libpath)
+    mip.install('github:spierepf/upatterns', target=libpath)
