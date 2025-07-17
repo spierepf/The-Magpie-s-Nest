@@ -1,28 +1,34 @@
-import pygame
 import random
 import math
 import sys
+import pygame
 import time
+from typing import List, Tuple, Optional, TypeAlias, Set
+
+RGBColor: TypeAlias = Tuple[int, int, int]
 
 pygame.init()
-WIDTH, HEIGHT = 947, 768
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+WIDTH: int = 947
+HEIGHT: int = 768
+screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Time and Space Arch")
-clock = pygame.time.Clock()
+clock: pygame.time.Clock = pygame.time.Clock()
 
-PORT_RADIUS = 20
-PORT_COLOR_DEFAULT = (128, 0, 128)
-PORT_COLOR_GOOD = (0, 255, 0)
-PORT_COLOR_BAD = (255, 0, 0)
-PORT_COLOR_ANIM = [(255, 0, 255), (0, 255, 255), (255, 255, 0)]
-TIME_AND_SPACE_POS = (WIDTH // 2, 100)
-NUM_PORTS_PER_SIDE = 9
-ARCH_RADIUS = 300
-ARCH_CENTER = (WIDTH // 2, TIME_AND_SPACE_POS[1] + ARCH_RADIUS)
-WIRE_LENGTH = 600  # fixed wire length
+PORT_RADIUS: int = 20
+PORT_COLOR_DEFAULT: RGBColor = (128, 0, 128)
+PORT_COLOR_GOOD: RGBColor = (0, 255, 0)
+PORT_COLOR_BAD: RGBColor = (255, 0, 0)
+PORT_COLOR_ANIM: List[RGBColor] = [(255, 0, 255), (0, 255, 255), (255, 255, 0)]
+TIME_AND_SPACE_POS: Tuple[int, int] = (WIDTH // 2, 100)
+NUM_PORTS_PER_SIDE: int = 9
+ARCH_RADIUS: int = 300
+ARCH_CENTER: Tuple[int, int] = (WIDTH // 2, TIME_AND_SPACE_POS[1] + ARCH_RADIUS)
+WIRE_LENGTH: int = 600  # fixed wire length
 
 
-def generate_arch_positions(center, radius, count, angle_offset):
+def generate_arch_positions(
+    center: Tuple[int, int], radius: int, count: int, angle_offset: List[float]
+) -> List[Tuple[int, int]]:
     return [
         (
             int(center[0] + radius * math.cos(math.radians(angle))),
@@ -32,56 +38,57 @@ def generate_arch_positions(center, radius, count, angle_offset):
     ]
 
 
-left_angles = list(
+left_angles: List[float] = list(
     reversed(
         [180 + i * (80 / (NUM_PORTS_PER_SIDE - 1)) for i in range(NUM_PORTS_PER_SIDE)]
     )
 )
-right_angles = [
+right_angles: List[float] = [
     360 - i * (80 / (NUM_PORTS_PER_SIDE - 1)) for i in range(NUM_PORTS_PER_SIDE)
 ]
-left_ports = generate_arch_positions(
+left_ports: List[Tuple[int, int]] = generate_arch_positions(
     ARCH_CENTER, ARCH_RADIUS, NUM_PORTS_PER_SIDE, left_angles
 )
-right_ports = generate_arch_positions(
+right_ports: List[Tuple[int, int]] = generate_arch_positions(
     ARCH_CENTER, ARCH_RADIUS, NUM_PORTS_PER_SIDE, right_angles
 )
-portholes = left_ports + right_ports
+portholes: List[Tuple[int, int]] = left_ports + right_ports
 
-connections = []
-selected = None
-port_colors = [PORT_COLOR_DEFAULT] * len(portholes)
-available_indices = list(range(len(portholes)))
+connections: List[Tuple[int, int, RGBColor]] = []
+selected: Optional[int] = None
+port_colors: List[RGBColor] = [PORT_COLOR_DEFAULT] * len(portholes)
+available_indices: List[int] = list(range(len(portholes)))
 random.shuffle(available_indices)
-correct_pairs = [
-    tuple(sorted((available_indices[i], available_indices[i + 1])))
+correct_pairs: List[Tuple[int, int]] = [
+    tuple(sorted((available_indices[i], available_indices[i + 1]))[:2])
     for i in range(0, 6, 2)
 ]
 
 
-def draw_portholes():
-    # Always set green for ports in a correct connection
-    connected_good_ports = set()
+def draw_portholes() -> None:
+    connected_good_ports: Set[int] = set()
     for c in connections:
         idx_pair = tuple(sorted((c[0], c[1])))
         if idx_pair in correct_pairs:
             connected_good_ports.add(c[0])
             connected_good_ports.add(c[1])
     for i, (x, y) in enumerate(portholes):
-        color = PORT_COLOR_GOOD if i in connected_good_ports else port_colors[i]
+        color: RGBColor = (
+            PORT_COLOR_GOOD if i in connected_good_ports else port_colors[i]
+        )
         pygame.draw.circle(screen, color, (x, y), PORT_RADIUS)
 
 
-def draw_time_and_space():
+def draw_time_and_space() -> None:
     pygame.draw.circle(screen, (255, 255, 255), TIME_AND_SPACE_POS, 30, 4)
 
 
-def draw_arch_outline():
+def draw_arch_outline() -> None:
     points = generate_arch_outline()
     pygame.draw.polygon(screen, (200, 200, 200), points, 2)
 
 
-def draw_connections():
+def draw_connections() -> None:
     for idx1, idx2, color in connections:
         p1, p2 = portholes[idx1], portholes[idx2]
         dist = math.hypot(p2[0] - p1[0], p2[1] - p1[1])
@@ -91,7 +98,14 @@ def draw_connections():
         draw_bezier_curve(p1, (mid_x, mid_y), p2, color, thickness=6)
 
 
-def draw_bezier_curve(p0, p1, p2, color, thickness=6, segments=20):
+def draw_bezier_curve(
+    p0: Tuple[int, int],
+    p1: Tuple[int, int],
+    p2: Tuple[int, int],
+    color: RGBColor,
+    thickness: int = 6,
+    segments: int = 20,
+) -> None:
     prev = p0
     for t in range(1, segments + 1):
         t /= segments
@@ -101,18 +115,20 @@ def draw_bezier_curve(p0, p1, p2, color, thickness=6, segments=20):
         prev = (x, y)
 
 
-def point_in_circle(point, center, radius):
+def point_in_circle(
+    point: Tuple[int, int], center: Tuple[int, int], radius: int
+) -> bool:
     return math.hypot(point[0] - center[0], point[1] - center[1]) <= radius
 
 
-def find_clicked_port(pos):
+def find_clicked_port(pos: Tuple[int, int]) -> Optional[int]:
     for i, p in enumerate(portholes):
         if point_in_circle(pos, p, PORT_RADIUS):
             return i
     return None
 
 
-def find_clicked_connection(pos):
+def find_clicked_connection(pos: Tuple[int, int]) -> Optional[int]:
     # For each connection, sample points along the Bezier curve and check proximity
     for i, (idx1, idx2, _) in enumerate(connections):
         p1, p2 = portholes[idx1], portholes[idx2]
@@ -139,11 +155,10 @@ def find_clicked_connection(pos):
     return None
 
 
-def handle_connection(a, b):
+def handle_connection(a: int, b: int) -> None:
     global connections
     idx_pair = tuple(sorted((a, b)))
-    # Prevent connecting to already occupied portholes
-    occupied = set()
+    occupied: Set[int] = set()
     for c in connections:
         occupied.add(c[0])
         occupied.add(c[1])
@@ -165,7 +180,7 @@ def handle_connection(a, b):
         if len(connections) >= 3:
             print("Maximum wires reached and all are correct. Cannot add more.")
             return
-    color = [random.randint(100, 255) for _ in range(3)]
+    color: RGBColor = tuple(random.randint(100, 255) for _ in range(3))  # type: ignore
     connections.append((a, b, color))
     if idx_pair in correct_pairs:
         port_colors[a] = port_colors[b] = PORT_COLOR_GOOD
@@ -175,7 +190,7 @@ def handle_connection(a, b):
         print(f"❌ Incorrect pair: {idx_pair}")
 
 
-def check_victory():
+def check_victory() -> bool:
     matched = 0
     for cp in correct_pairs:
         for c in connections:
@@ -185,7 +200,7 @@ def check_victory():
     return matched == len(correct_pairs)
 
 
-def run_win_animation():
+def run_win_animation() -> None:
     for _ in range(10):
         for color in PORT_COLOR_ANIM:
             screen.fill((0, 0, 0))
@@ -198,7 +213,7 @@ def run_win_animation():
             pygame.time.wait(100)
 
 
-def generate_arch_outline():
+def generate_arch_outline() -> List[Tuple[int, int]]:
     outer_radius = ARCH_RADIUS + 40
     inner_radius = ARCH_RADIUS - 40
     outer_angles = [180 + i * (180 / 36) for i in range(37)]  # 180 to 0
@@ -230,22 +245,22 @@ def generate_arch_outline():
 
 
 # Timer variables for hint blinking
-HINT_INTERVAL = 60  # seconds
-HINT_DURATION = 2  # seconds
-last_hint_time = time.time()
-hint_active = False
-hint_pair = None
-hint_start_time = 0
+HINT_INTERVAL: int = 60  # seconds
+HINT_DURATION: int = 2  # seconds
+last_hint_time: float = time.time()
+hint_active: bool = False
+hint_pair: Optional[Tuple[int, int]] = None
+hint_start_time: float = 0
 
 
-def blink_hint_pair(pair, blink_on):
-    color = (255, 255, 255) if blink_on else PORT_COLOR_DEFAULT
+def blink_hint_pair(pair: Tuple[int, int], blink_on: bool) -> None:
+    color: RGBColor = (255, 255, 255) if blink_on else PORT_COLOR_DEFAULT
     for idx in pair:
         pygame.draw.circle(screen, color, portholes[idx], PORT_RADIUS + 4)
 
 
-running = True
-won = False
+running: bool = True
+won: bool = False
 
 while running:
     screen.fill((0, 0, 0))
