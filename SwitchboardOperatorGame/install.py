@@ -6,10 +6,10 @@ sys.path.insert(0, libpath)
 if libpath not in os.listdir():
     os.mkdir(libpath)
 
-if 'ulogging.py' not in os.listdir(libpath):
+if 'logging.mpy' not in os.listdir(libpath):
     import mip
 
-    mip.install('github:pfalcon/pycopy-lib/ulogging/ulogging.py', target=libpath)
+    mip.install('logging', target=libpath)
 
 if 'uwledclient.py' not in os.listdir(libpath):
     import mip
