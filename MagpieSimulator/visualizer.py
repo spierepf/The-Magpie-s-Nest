@@ -1,24 +1,32 @@
 # visualizer.py
 import pygame
 import math
+from typing import List, Tuple, Optional, Sequence, Any
 
-WIDTH, HEIGHT = 1200, 800
-BG_COLOR = (30, 30, 30)
-FRONT_COLOR = (70, 130, 180)
-BACK_COLOR = (180, 130, 70)
-PORT_COLOR_ON = (255, 255, 100)
-PORT_COLOR_OFF = (80, 80, 80)
-PORT_RADIUS = 14  # Reduced from 20 to 14 for better spacing
-FONT_SIZE = 24
-ARCH_RADIUS = 220  # Reduced from 300 to 220 for better fit
-ARCH_OUTLINE_WIDTH = 2
-TIME_AND_SPACE_RADIUS = 30
+WIDTH: int = 1200
+HEIGHT: int = 800
+BG_COLOR: Tuple[int, int, int] = (30, 30, 30)
+FRONT_COLOR: Tuple[int, int, int] = (70, 130, 180)
+BACK_COLOR: Tuple[int, int, int] = (180, 130, 70)
+PORT_COLOR_ON: Tuple[int, int, int] = (255, 255, 100)
+PORT_COLOR_OFF: Tuple[int, int, int] = (80, 80, 80)
+PORT_RADIUS: int = 14  # Reduced from 20 to 14 for better spacing
+FONT_SIZE: int = 24
+ARCH_RADIUS: int = 220  # Reduced from 300 to 220 for better fit
+ARCH_OUTLINE_WIDTH: int = 2
+TIME_AND_SPACE_RADIUS: int = 30
 
-NUM_PORTS_PER_SIDE = 18
+NUM_PORTS_PER_SIDE: int = 18
 
 
 # Arch math helpers
-def generate_arch_positions(center, radius, count, angle_start=180, angle_span=180):
+def generate_arch_positions(
+    center: Tuple[int, int],
+    radius: int,
+    count: int,
+    angle_start: float = 180,
+    angle_span: float = 180,
+) -> List[Tuple[int, int]]:
     # We want to skip two positions in the center of the arch
     total_positions = count + 2
     angles = [
@@ -39,7 +47,9 @@ def generate_arch_positions(center, radius, count, angle_start=180, angle_span=1
     return positions
 
 
-def generate_arch_outline(center, radius, port_radius):
+def generate_arch_outline(
+    center: Tuple[int, int], radius: int, port_radius: int
+) -> List[Tuple[int, int]]:
     outer_radius = radius + 40
     inner_radius = radius - 40
     outer_angles = [180 + i * (180 / 36) for i in range(37)]
@@ -68,7 +78,17 @@ def generate_arch_outline(center, radius, port_radius):
     )
 
 
-def draw_arch(surface, center, states, names, title, color, font, mouse_pos, segment):
+def draw_arch(
+    surface: pygame.Surface,
+    center: Tuple[int, int],
+    states: Sequence[Any],
+    names: Sequence[str],
+    title: str,
+    color: Tuple[int, int, int],
+    font: pygame.font.Font,
+    mouse_pos: Tuple[int, int],
+    segment: int,
+) -> Optional[str]:
     # Draw arch outline
     outline = generate_arch_outline(center, ARCH_RADIUS, PORT_RADIUS)
     pygame.draw.polygon(surface, (200, 200, 200), outline, ARCH_OUTLINE_WIDTH)
@@ -118,8 +138,11 @@ def draw_arch(surface, center, states, names, title, color, font, mouse_pos, seg
     return hovered_name
 
 
-def run_visualizer(state_manager, front_indices, back_indices):
-    import models
+def run_visualizer(
+    state_manager: Any,
+    front_indices: Sequence[int],
+    back_indices: Sequence[int],
+) -> None:
 
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
