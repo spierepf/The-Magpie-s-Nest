@@ -3,7 +3,6 @@ try:
 except:
     from lib.upatterns.observable import Observable
 
-
 class NodePair:
     def __init__(self, node1, node2):
         assert node1.pin() != node2.pin()
@@ -21,3 +20,6 @@ class NodePair:
             return
         self._connection_state = current_connection_state
         self.observers.notify(self, self._connection_state)
+
+    def __repr__(self):
+        return f"<NodePair: {self._node1}, {self._node2}>"
