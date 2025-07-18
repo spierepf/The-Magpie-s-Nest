@@ -23,3 +23,6 @@ class Node:
         finally:
             pin.init(mode=pin.IN, pull=None)
             other_pin.init(mode=other_pin.IN, pull=None)
+
+    def __repr__(self):
+        return f"<Node: {self._pin}>"
