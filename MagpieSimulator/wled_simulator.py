@@ -22,6 +22,7 @@ class WLEDSimulator:
         self.app = web.Application()
         self.app.add_routes(
             [
+                web.route("*", "/{tail:.*}", self.handle_generic),
                 web.get("/", self.handle_wled_autodiscover),
                 web.get("/win", self.handle_wled_autodiscover),
                 web.get("/json", self.handle_json),
@@ -29,8 +30,12 @@ class WLEDSimulator:
             ]
         )
 
+    async def handle_generic(self, request: web.Request) -> web.Response:
+        print(f"-> Processing generic request for {self.name}")
+        return web.Response(text="Not found", status=404)
+
     async def handle_wled_autodiscover(self, request: web.Request) -> web.Response:
-        print("Processing WLED autodiscover request")
+        print(f"-> Processing WLED autodiscover request for {self.name}")
         # Return a simple HTML page for WLED autodiscovery
         return web.Response(
             text="""<leds>
@@ -69,6 +74,7 @@ class WLEDSimulator:
 
     async def handle_json(self, request: web.Request) -> web.Response:
         # Return current state, including segments and effect
+        # print(f"-> Processing JSON request for {self.name}")
         state_dict: Dict[str, Any] = {
             "on": self.state.on,
             "bri": self.state.bri,
