@@ -25,23 +25,18 @@ class GameControllerTestCase(unittest.TestCase):
 
         node_pair.poll.assert_called_once_with()
 
-    def test_game_controller_notifies_observers_when_all_node_pairs_connected(self):
+    def test_game_controller_poll_only_returns_false_when_all_node_pairs_connected(self):
         node_pairs = []
         for pin_id in range(0, 10, 2):
-            node_pairs.append(NodePair(Node(self.mpf.Pin(pin_id)), Node(self.mpf.Pin(pin_id+1))))
+            node_pairs.append(NodePair(Node(self.mpf.Pin(pin_id)), Node(self.mpf.Pin(pin_id + 1))))
         game_controller = GameController(node_pairs)
-
-        spy = Mock()
-        game_controller.observers.attach(spy)
 
         for pin_id in range(0, 8, 2):
             self.connect_pins(pin_id, pin_id + 1)
-            game_controller.poll()
-            spy.assert_not_called()
+            assert game_controller.poll() == True
 
         self.connect_pins(8, 9)
-        game_controller.poll()
-        spy.assert_called_once_with()
+        assert game_controller.poll() == False
 
 
 if __name__ == '__main__':

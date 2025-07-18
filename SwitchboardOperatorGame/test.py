@@ -1,6 +1,9 @@
 import os
 
 import install
+import logging
+
+logging.basicConfig(level=logging.ERROR)
 
 if 'unittest' not in os.listdir(install.libpath):
     import mip
