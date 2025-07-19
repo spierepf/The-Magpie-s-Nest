@@ -24,6 +24,7 @@ class GameControllerTestCase(unittest.TestCase):
 
     def test_polling_a_game_controller_will_poll_its_node_pairs(self):
         node_pair = Mock()
+        node_pair.poll.return_value = False
         game_controller = GameController([node_pair])
         game_controller.poll()
 
