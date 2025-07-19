@@ -8,6 +8,7 @@ class GameController:
         self._node_pairs = set(node_pairs)
         self._connected_node_pairs = set()
         for node_pair in self._node_pairs:
+            log.info(f'Configured pair: {node_pair}')
             node_pair.observers.attach(self._pair_connection_state_change)
 
     def poll(self):
