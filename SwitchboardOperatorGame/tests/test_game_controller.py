@@ -1,8 +1,12 @@
 import unittest
 from unittest.mock import Mock
 
-from umockpin.mock_pin_factory import MockPinFactory
-from umockpin.mock_pin_net import MockPinNet
+try:
+    from umockpin.mock_pin_factory import MockPinFactory
+    from umockpin.mock_pin_net import MockPinNet
+except:
+    from lib.umockpin.mock_pin_factory import MockPinFactory
+    from lib.umockpin.mock_pin_net import MockPinNet
 
 from game_controller import GameController
 from node import Node
