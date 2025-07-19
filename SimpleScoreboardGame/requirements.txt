@@ -1,0 +1,5 @@
+# requirements.txt for SimpleScoreboardGame
+# List of MicroPython modules (for reference, actual install is via upip or manual copy)
+# These are for development and documentation purposes only
+neopixel
+ssd1306
