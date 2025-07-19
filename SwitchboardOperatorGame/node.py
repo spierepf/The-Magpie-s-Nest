@@ -1,8 +1,6 @@
 class Node:
-    def __init__(self, pin, show_colour=None, clear_colour=None):
+    def __init__(self, pin):
         self._pin = pin
-        self.show_colour = show_colour
-        self.clear_colour = clear_colour
 
     def pin(self):
         return self._pin
