@@ -20,3 +20,8 @@ if 'mcp23s08.py' not in os.listdir(libpath):
     import mip
 
     mip.install('github:spierepf/mcp23s08', target=libpath)
+
+if 'itertools.mpy' not in os.listdir(libpath):
+    import mip
+
+    mip.install('itertools', target=libpath)

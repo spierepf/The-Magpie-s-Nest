@@ -43,6 +43,43 @@ class GameControllerTestCase(unittest.TestCase):
         self.connect_pins(8, 9)
         assert game_controller.poll() == False
 
+    def test_game_controller_can_give_hints(self):
+        node_pair = Mock()
+        game_controller = GameController([node_pair])
+        game_controller.give_hint()
+
+        node_pair.give_hint.assert_called_once()
+
+    def test_game_controller_rotates_hints(self):
+        node_pair1 = Mock()
+        node_pair2 = Mock()
+        game_controller = GameController([node_pair1, node_pair2])
+
+        game_controller.give_hint()
+        node_pair1.give_hint.assert_called_once()
+
+        game_controller.give_hint()
+        node_pair2.give_hint.assert_called_once()
+
+    def test_game_controller_skips_connected_node_pairs_when_giving_hints(self):
+        node_pair1 = Mock()
+        node_pair2 = Mock()
+        game_controller = GameController([node_pair1, node_pair2])
+
+        node_pair1.is_connected.return_value = True
+
+        game_controller.give_hint()
+        node_pair1.give_hint.assert_not_called()
+        node_pair2.give_hint.assert_called_once()
+
+    def test_give_hint_does_nothing_if_all_node_pairs_are_connected(self):
+        node_pair = Mock()
+        node_pair.is_connected.return_value = True
+        game_controller = GameController([node_pair])
+        game_controller.give_hint()
+
+        node_pair.give_hint.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()
