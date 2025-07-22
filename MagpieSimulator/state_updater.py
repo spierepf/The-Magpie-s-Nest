@@ -25,14 +25,18 @@ class WLEDStateManager:
         port = BASE_PORT + idx
         url = f"http://127.0.0.1:{port}/json"
         try:
-            async with session.get(url, timeout=0.5) as resp:
+            async with session.get(url, timeout=1) as resp:
                 data = await resp.json()
                 self.states[idx] = WLEDState(
                     on=data.get("on", False),
                     bri=data.get("bri", 0),
                     name=data.get("name", self.names[idx]),
                     seg=[
-                        SegmentState(id=s.get("id", 0), col=s.get("col", [[0, 0, 0]]))
+                        SegmentState(
+                            id=s.get("id", 0),
+                            col=s.get("col", [[0, 0, 0]]),
+                            fx=s.get("fx"),
+                        )
                         for s in data.get("seg", [])
                     ],
                     fx=data.get("fx"),
