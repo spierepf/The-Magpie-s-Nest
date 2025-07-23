@@ -1,3 +1,8 @@
+import logging
+
+log = logging.getLogger(__name__)
+
+
 class NodePair:
     def __init__(self, node1, node2, give_hint=lambda: None):
         assert node1.pin() != node2.pin()
@@ -13,6 +18,8 @@ class NodePair:
         current_connection_state = self._evaluate_connection_state()
         if self._connection_state != current_connection_state:
             self._connection_state = current_connection_state
+            log.info(f"{self} connection state changed to: {self._connection_state}")
+
         return not current_connection_state
 
     def __repr__(self):
