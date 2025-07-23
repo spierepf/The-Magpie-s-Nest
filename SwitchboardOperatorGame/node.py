@@ -1,6 +1,7 @@
 class Node:
-    def __init__(self, pin):
+    def __init__(self, pin, **kwargs):
         self._pin = pin
+        self.aux = kwargs
 
     def pin(self):
         return self._pin
@@ -23,4 +24,4 @@ class Node:
             other_pin.init(mode=other_pin.IN, pull=None)
 
     def __repr__(self):
-        return f"<Node: {self._pin}>"
+        return f"<Node: {self._pin}, aux={self.aux}>"
