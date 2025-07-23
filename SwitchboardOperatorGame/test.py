@@ -27,6 +27,8 @@ from tests.test_node import TestNode
 from tests.test_node_pair import NodePairTestCase
 # noinspection PyUnresolvedReferences
 from tests.test_game_controller import GameControllerTestCase
+# noinspection PyUnresolvedReferences
+from tests.test_sequencer import SequencerTestCase
 
 if __name__ == "__main__":
     unittest.main()
