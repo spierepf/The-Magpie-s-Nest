@@ -3,6 +3,8 @@ import pygame
 import math
 from typing import List, Tuple, Optional, Sequence, Any
 
+from models import WLED_EFFECTS
+
 WIDTH: int = 1200
 HEIGHT: int = 800
 BG_COLOR: Tuple[int, int, int] = (30, 30, 30)
@@ -114,13 +116,28 @@ def draw_arch(
         state = states[i]
         name = names[i]
         color_fill = PORT_COLOR_OFF
+
         if state is not None and state.on:
-            if getattr(state, "fx", None) == 68:
+            effect_index = state.fx or 0
+            if WLED_EFFECTS[effect_index] == "Pride 2015":
                 # Animate pride rainbow: shift colors over time
                 color_fill = pride_colors[(i + pride_offset) % len(pride_colors)]
-            elif state.seg and state.seg[0].col:
-                rgb = state.seg[segment].col[0]
-                color_fill = tuple(rgb)
+            elif state.seg:
+                if state.seg[0].fx is not None:
+                    if WLED_EFFECTS[state.seg[0].fx] == "Pride 2015":
+                        color_fill = pride_colors[
+                            (i + pride_offset) % len(pride_colors)
+                        ]
+                    else:
+                        print(
+                            f"Effect {state.seg[0].fx} {WLED_EFFECTS[state.seg[0].fx]} not supported for {name}"
+                        )
+                elif state.seg[0].col:
+                    rgb = state.seg[segment].col[0]
+                    color_fill = tuple(rgb)
+            else:
+                print(f"No segment data for {name}, skipping")
+                continue
         pygame.draw.circle(surface, color_fill, (x, y), PORT_RADIUS)
         pygame.draw.circle(surface, color, (x, y), PORT_RADIUS, 2)
         # Ensure portholes do not overlap with time_and_space

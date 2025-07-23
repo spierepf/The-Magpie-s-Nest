@@ -64,7 +64,7 @@ class MDNSAdvertiser:
         self._running = True
         try:
             while self._running:
-                print(f"Announcing mDNS service for {self.name} on port {self.port}")
+                # print(f"Announcing mDNS service for {self.name} on port {self.port}")
                 await asyncio.sleep(60)  # Announce every 60 seconds
         finally:
             print("Unregistering mDNS service...")
