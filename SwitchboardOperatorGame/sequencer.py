@@ -13,7 +13,7 @@ except:
 
 
     def ticks_diff(ticks1, ticks2):
-        return ticks1 - ticks2;
+        return ticks1 - ticks2
 
 MILLISECOND = 1
 SECOND = MILLISECOND * 1000
