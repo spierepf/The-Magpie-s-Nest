@@ -28,7 +28,7 @@ uint8_t message[24] = {
   0, 0, 0,    // Primary Colour
   0,          // Nightlight running?
   0,          // Nightlight Time
-  60,         // Effect Index - Pride 2015
+  63,         // Effect Index - Pride 2015
   128,        // Effect Speed
   0,          // Primary White Value
   5,          // Version Byte - Palettes supported
