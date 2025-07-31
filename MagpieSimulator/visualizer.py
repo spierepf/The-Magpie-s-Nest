@@ -128,6 +128,12 @@ def draw_arch(
                         color_fill = pride_colors[
                             (i + pride_offset) % len(pride_colors)
                         ]
+                    elif WLED_EFFECTS[state.seg[0].fx] == "Solid":
+                        rgb = state.seg[0].col[0]
+                        color_fill = tuple(rgb)
+                    elif WLED_EFFECTS[state.seg[0].fx] == "Blink":
+                        rgb = state.seg[0].col[0] if i % 2 == 0 else [0, 0, 0]
+                        color_fill = tuple(rgb)
                     else:
                         print(
                             f"Effect {state.seg[0].fx} {WLED_EFFECTS[state.seg[0].fx]} not supported for {name}"

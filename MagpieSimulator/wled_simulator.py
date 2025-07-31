@@ -92,7 +92,12 @@ class WLEDSimulator:
 
     async def handle_state(self, request: web.Request) -> web.Response:
         data = await request.json()
-        print(f"Received POST for {self.name} state: {data}")
+        try:
+            print(
+                f"Received POST for {self.name} Effect: {WLED_EFFECTS[data['seg'][0]['fx']]}"
+            )
+        except KeyError:
+            print(f"Received POST for {self.name} Effect: Unknown")
         # Handle on/off and brightness
         if "on" in data:
             self.state.on = data["on"]
