@@ -3,7 +3,7 @@
 import asyncio
 import socket
 import traceback
-from zeroconf import ServiceInfo
+from zeroconf import InterfaceChoice, ServiceInfo
 from zeroconf.asyncio import AsyncZeroconf
 
 
@@ -14,7 +14,8 @@ class MDNSAdvertiser:
         self._task = None
         self._running = False
         self.zeroconf = None
-        self.service_info = None
+        self.wled_service_info = None
+        self.http_service_info = None
 
     def _get_local_ip(self):
         # Get the LAN IP address, not loopback
@@ -32,30 +33,49 @@ class MDNSAdvertiser:
         # return "10.10.2.36"
         return ip
 
-    def _build_service_info(self):
+    def _build_wled_service_info(self):
         # Build the ServiceInfo object for zeroconf
-        desc = {}  # Empty TXT record
-        hostname = socket.gethostname()
+        local_ip = self._get_local_ip()
+        service_type = "_wled._tcp.local."
+        service_name = f"{self.name}.{service_type}"
+        self.wled_service_info = ServiceInfo(
+            type_=service_type,  # wled, http
+            name=service_name,  # Full human readable name
+            parsed_addresses=[local_ip],
+            port=self.port,
+            server=f"{self.name}.local.",  # Actual host name
+            weight=0,
+            priority=0,
+            properties={},  # Empty TXT record
+        )
+
+    def _build_http_service_info(self):
+        # Build the ServiceInfo object for zeroconf
         local_ip = self._get_local_ip()
         service_type = "_http._tcp.local."
         service_name = f"{self.name}.{service_type}"
-        self.service_info = ServiceInfo(
-            type_=service_type,
-            name=service_name,
-            addresses=[socket.inet_aton(local_ip)],
+        self.http_service_info = ServiceInfo(
+            type_=service_type,  # wled, http
+            name=service_name,  # Full human readable name
+            parsed_addresses=[local_ip],
             port=self.port,
-            properties=desc,
-            server=f"{hostname}.local.",
+            server=f"{self.name}.local.",  # Actual host name
+            weight=0,
+            priority=0,
+            properties={},  # Empty TXT record
         )
 
     async def _advertise(self):
         print("Starting mDNS advertisement with zeroconf...")
         try:
-            self._build_service_info()
-            if self.service_info is not None:
+            self._build_wled_service_info()
+            self._build_http_service_info()
+            if self.wled_service_info is not None:
                 print("Registering mDNS service...")
-                self.zeroconf = AsyncZeroconf()
-                await self.zeroconf.async_register_service(self.service_info)
+                self.zeroconf = AsyncZeroconf(interfaces=[self._get_local_ip()])
+                await self.zeroconf.async_register_service(self.wled_service_info)
+                await self.zeroconf.async_register_service(self.http_service_info)
+
         except Exception as e:
             print(f"Error during mDNS advertisement: {e}")
             traceback.print_exc()
