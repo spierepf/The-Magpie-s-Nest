@@ -1,0 +1,11 @@
+[project]
+name = "magpiesimulator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiohttp>=3.12.15",
+    "pygame>=2.6.1",
+    "zeroconf>=0.147.0",
+]
