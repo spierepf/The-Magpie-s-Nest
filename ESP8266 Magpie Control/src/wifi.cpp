@@ -1,29 +1,26 @@
-#include <wifi.hpp>
-#include <secrets.hpp>
-
 #include <ESP8266WiFi.h>
 
-namespace wifi
-{
-  void setup()
-  {
-    WiFi.begin(WIFI_SSID, WIFI_PSK);
+#include <wifi.hpp>
 
-    Serial.print("Connecting");
-    while (WiFi.status() != WL_CONNECTED)
-    {
-      delay(500);
-      Serial.print(".");
+#ifndef STASSID
+#define STASSID "your-ssid"
+#define STAPSK "your-password"
+#endif
+
+const char* ssid = STASSID;
+const char* password = STAPSK;
+
+namespace wifi {
+  void setup() {
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(ssid, password);
+    while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+      Serial.println("Connection Failed! Rebooting...");
+      delay(5000);
+      ESP.restart();
     }
-    Serial.println();
-
-    Serial.print("Connected, IP address: ");
-    Serial.println(WiFi.localIP());
   }
 
-  void loop()
-  {
-    while (WiFi.status() != WL_CONNECTED)
-      ;
+  void loop() {
   }
 }
