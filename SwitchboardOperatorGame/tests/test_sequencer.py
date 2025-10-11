@@ -49,7 +49,7 @@ class SequencerTestCase(unittest.TestCase):
         task2 = Mock()
         sequencer.after(12 * MINUTE, task2)
 
-        task1 = Mock(
+        task1 = Mock()
         sequencer.after(10 * MINUTE, task1)
 
         clock.return_value = (11 * MINUTE)
