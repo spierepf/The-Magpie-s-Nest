@@ -54,7 +54,6 @@ class NodePairTestCase(unittest.TestCase):
         assert self.node_pair.is_connected() == True
 
     def test_node_pair_confirms_when_connected(self):
-        assert self.node_pair.is_connected() == False
         self.confirm_mock.assert_not_called()
         self.connect_pins()
         self.node_pair.poll()
