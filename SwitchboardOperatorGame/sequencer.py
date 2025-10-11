@@ -28,8 +28,8 @@ class Sequencer:
         self._add = add
         self._diff = diff
 
-    def after(self, duration, unit, task):
-        when = self._add(self._clock(), duration * unit)
+    def after(self, duration, task):
+        when = self._add(self._clock(), duration)
         self._tasks.add((when, task))
 
     def __call__(self):

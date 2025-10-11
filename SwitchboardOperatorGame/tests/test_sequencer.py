@@ -10,7 +10,7 @@ class SequencerTestCase(unittest.TestCase):
         sequencer = Sequencer(clock)
 
         task = Mock()
-        sequencer.after(10, MINUTE, task)
+        sequencer.after(10 * MINUTE, task)
 
         clock.return_value = 10 * MINUTE
         sequencer()
@@ -21,7 +21,7 @@ class SequencerTestCase(unittest.TestCase):
         sequencer = Sequencer(clock)
 
         task = Mock()
-        sequencer.after(10, MINUTE, task)
+        sequencer.after(10 * MINUTE, task)
 
         clock.return_value = (10 * MINUTE) - 1
         sequencer()
@@ -32,10 +32,10 @@ class SequencerTestCase(unittest.TestCase):
         sequencer = Sequencer(clock)
 
         task1 = Mock()
-        sequencer.after(10, MINUTE, task1)
+        sequencer.after(10 * MINUTE, task1)
 
         task2 = Mock()
-        sequencer.after(12, MINUTE, task2)
+        sequencer.after(12 * MINUTE, task2)
 
         clock.return_value = (11 * MINUTE)
         sequencer()
@@ -47,10 +47,10 @@ class SequencerTestCase(unittest.TestCase):
         sequencer = Sequencer(clock)
 
         task2 = Mock()
-        sequencer.after(12, MINUTE, task2)
+        sequencer.after(12 * MINUTE, task2)
 
-        task1 = Mock()
-        sequencer.after(10, MINUTE, task1)
+        task1 = Mock(
+        sequencer.after(10 * MINUTE, task1)
 
         clock.return_value = (11 * MINUTE)
         sequencer()
@@ -62,7 +62,7 @@ class SequencerTestCase(unittest.TestCase):
         sequencer = Sequencer(clock)
 
         task = Mock()
-        sequencer.after(10, MINUTE, task)
+        sequencer.after(10 * MINUTE, task)
 
         clock.return_value = 10 * MINUTE
         sequencer()
