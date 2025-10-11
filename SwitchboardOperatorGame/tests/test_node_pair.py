@@ -20,7 +20,8 @@ class NodePairTestCase(unittest.TestCase):
         self.node0 = Node(self.pin0)
         self.node1 = Node(self.pin1)
         self.give_hint_mock = Mock()
-        self.node_pair = NodePair(self.node0, self.node1, give_hint=self.give_hint_mock)
+        self.confirm_mock = Mock()
+        self.node_pair = NodePair(self.node0, self.node1, give_hint=self.give_hint_mock, confirm=self.confirm_mock)
         self.net = MockPinNet()
 
     def connect_pins(self):
@@ -51,6 +52,13 @@ class NodePairTestCase(unittest.TestCase):
         self.connect_pins()
         self.node_pair.poll()
         assert self.node_pair.is_connected() == True
+
+    def test_node_pair_confirms_when_connected(self):
+        assert self.node_pair.is_connected() == False
+        self.confirm_mock.assert_not_called()
+        self.connect_pins()
+        self.node_pair.poll()
+        self.confirm_mock.assert_called_once()
 
 
 if __name__ == '__main__':
