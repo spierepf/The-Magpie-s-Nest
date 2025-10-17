@@ -3,17 +3,18 @@ import install
 
 # This is a sample Python script.
 import logging
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger(__name__)
+
 import random
 import time
 
-from config import NODES, MIN_HINT_DELAY, MAX_HINT_DELAY, HINT_DURATION, CONFIRM_DURATION
+from config import NODES, MIN_HINT_DELAY, MAX_HINT_DELAY, HINT_DURATION, CONFIRM_DURATION, WLED_ADDRESSES
 
 from game_controller import GameController
 from node_pair import NodePair
 from sequencer import Sequencer, SECOND
-
-logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
+from uwled.udp_client import udp_message, broadcast_message, send_message_to, get_addr_from_hostname_and_port, EFFECTS, PALETTES
 
 
 # Press Shift+F10 to execute it or replace it with your code.
@@ -29,32 +30,42 @@ sequencer = Sequencer()
 
 
 def reset_to_pride():
-    for node in NODES:
-        log.info(f"Resetting {node}")
-        node.aux["wled"].update().fx("Pride 2015").sx(16).next().done()
+    broadcast_message(udp_message(effect_current=EFFECTS["Pride 2015"]))
+
+
+colours = [
+    [255,0,0,0],
+    [255,69,0,0],
+    [255,255,0,0],
+    [0,255,0,0],
+    [0,0,255,0],
+    [75,0,130,0],
+    [143,0,255,0],
+]
+messages = list(map(lambda c: udp_message(col=c, effect_current=EFFECTS["Solid"]), colours))
 
 
 def build_node_pair(colour, node0, node1):
-    log.info(f"Building node pair from {node0} {node1}")
+    log.info(f"Building node pair from {colour, node0} {node1}")
     def hint():
-        node0.aux['wled'].update().fx("Solid").col([colour]).next().done()
-        node1.aux['wled'].update().fx("Solid").col([colour]).next().done()
+        msg = udp_message(col=colour, effect_current=EFFECTS["Solid"])
+        send_message_to(msg, WLED_ADDRESSES[node0.aux['wled_name']])
+        send_message_to(msg, WLED_ADDRESSES[node1.aux['wled_name']])
 
         def end_hint():
-            node0.aux['wled'].update().fx("Pride 2015").sx(16).next().done()
-            node1.aux['wled'].update().fx("Pride 2015").sx(16).next().done()
+            reset_to_pride()
             queue_hint()
             
         sequencer.after(HINT_DURATION, end_hint)
             
         
     def confirm():
-        node0.aux['wled'].update().fx("Blink").sx(255).col([colour]).next().done()
-        node1.aux['wled'].update().fx("Blink").sx(255).col([colour]).next().done()
+        msg = udp_message(col=colour, effect_current=EFFECTS["blink"], effect_speed=255)
+        send_message_to(msg, WLED_ADDRESSES[node0.aux['wled_name']])
+        send_message_to(msg, WLED_ADDRESSES[node1.aux['wled_name']])
 
         def end_confirm():
-            node0.aux['wled'].update().fx("Pride 2015").sx(16).next().done()
-            node1.aux['wled'].update().fx("Pride 2015").sx(16).next().done()
+            reset_to_pride()
             
         sequencer.after(CONFIRM_DURATION, end_confirm)
         
@@ -76,9 +87,9 @@ if __name__ == '__main__':
     reset_to_pride()
 
     colours = [
-        [255,0,0],
-        [0,255,0],
-        [0,0,255],
+        [255,0,0,0],
+        [0,255,0,0],
+        [0,0,255,0],
     ]
     nodes = list(NODES)
     shuffled_elements = []
@@ -97,4 +108,23 @@ if __name__ == '__main__':
 
     # CELEBRATE
 
+    broadcast_message(udp_message())
+    time.sleep(3)
+
+    addresses = list(WLED_ADDRESSES.values())
+    for _ in range(100):
+        address = random.choice(addresses)
+        message = random.choice(messages)
+        send_message_to(message, address)
+        time.sleep(0.5)
+
+    broadcast_message(udp_message())
+    time.sleep(1)
+
+    for _ in range(3):
+        broadcast_message(udp_message(effect_current=EFFECTS["Pride 2015"]))
+        time.sleep(0.1)
+        
+
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
